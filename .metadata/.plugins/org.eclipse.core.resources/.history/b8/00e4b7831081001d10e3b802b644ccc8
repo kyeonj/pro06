@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- templates/ajax/test1.html -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery 88 : jQuery Ajax 데이터 송수신 처리4 - post</title>
+    <script src="https://code.jquery.com/jquery-latest.js"></script> 
+    <style>
+    .container { clear:both; width:1000px; margin:20px auto; line-height:2.8; } 
+    .container:after { content:""; display:block; clear:both; }
+    .data { clear: both; }
+    .data:after { content:""; display:block; clear:both; }
+    .table th { border-top:2px solid #333; }
+    .table td, .table th { border-bottom:2px solid #333; } 
+    </style>
+</head>
+<body>
+    <section class="container">
+        <h2>jQuery Ajax 데이터 송수신 메소드 - ajax()</h2>
+        <article class="data">
+            <div><h2>AJAX Data Trans</h2></div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>아이디</th>
+						<th>비밀번호</th>
+						<th>이름</th>
+					</tr>
+				</thead>
+				<tbody id="result">
+				</tbody>
+			</table>
+			<button type="button" id="btn1">회원 로딩</button>
+			<div id="msg"></div>
+		</article>
+	  </section>
+  	<script>
+  	$(document).ready(function(){
+		  $("#btn1").click(function(){
+			 $.ajax({
+				 url:"/ajxa/getUser.do?id=id",
+				 //data:id,
+				 contentType:'application/json;charset=utf-8',
+				 method:"GET",
+				 dataType:"json"
+			 })
+			 .done(function(res){
+				 console.log(res);
+				 $.each(res, function(key, value){
+					$("#result").append("<li>"+key+" : "+value+"</li>"); 
+				 });
+			 })
+			 .fail(function(xhr, status, errorThrown){
+				 $("#msg").text("해당 회원의 정보를 불러오지 못했습니다.");
+			 });
+		  });
+	  });
+  	</script>
+</div>
+</body>
+</html>

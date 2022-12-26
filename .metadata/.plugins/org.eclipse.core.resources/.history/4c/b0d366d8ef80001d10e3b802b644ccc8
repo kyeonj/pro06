@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<title>Ajax 데이터 송수신 메소드</title>
+	
+</head>
+<body>
+<div class="fluid-container">
+	<section class="container">
+	<h2>Ajax 데이터 송수신 메소드</h2>
+	<article class="data">
+		<div><h2>DATA</h2></div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>아이디</th>
+					<th>비밀번호</th>
+					<th>이름</th>
+				</tr>
+			</thead>
+			<tbody id="result">
+			</tbody>
+		</table>
+		<button type="button" id="btn1">회원 로딩</button>
+		<div id="msg"></div>
+	</article>
+  	</section>
+  	<script>
+  	$(document).ready(function(){
+		  $("#btn1").click(function(){
+			 $.ajax({
+				 url:"/ajxa/getUser.do?id=id",
+				 //data:id,
+				 contentType:'application/json;charset=utf-8',
+				 method:"GET",
+				 dataType:"json"
+			 })
+			 .done(function(res){
+				 console.log(res);
+				 $.each(res, function(key, value){
+					$("#result").append("<li>"+key+" : "+value+"</li>"); 
+				 });
+			 })
+			 .fail(function(xhr, status, errorThrown){
+				 $("#msg").text("해당 회원의 정보를 불러오지 못했습니다.");
+			 });
+		  });
+	  });
+  	</script>
+</div>
+</body>
+</html>

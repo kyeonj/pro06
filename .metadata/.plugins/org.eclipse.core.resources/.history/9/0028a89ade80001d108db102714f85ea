@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<title>Ajax 데이터 송수신 메소드</title>
+	
+</head>
+<body>
+<div class="fluid-container">
+	
+	<div class="container">
+	<h2>Ajax 데이터 송수신 메소드</h2>
+	<article class="data">
+		<div><h2>DATA</h2></div>
+		<form>
+			<input type="text" id="id" name="id" placeholder="아이디입력" required>
+			<input type="hidden" id="idck" name="idck">
+	</article>
+  	</div>
+  	<script>
+  	$(document).ready(function(){
+		  $("#btn1").click(function(){
+			 var id = $("#id").val();
+			 if(id==""){
+				 alert("아이디가 입력되지 않았습니다");
+			 } 
+			 $.ajax({
+				 url:"idCheck.do",
+				 data:id,
+				 contentType:'application/json;charset=utf-8',
+				 method:"POST",
+				 dataType:"json"
+			 })
+			 .done(function(res){
+				 console.log(res);
+				 if(res==true){
+					 $("#msg").text("사용가능한 아이디입니다.");
+					 $("#idck").val("yes");
+				 } else {
+					 $ ("#msg").text("현재 사용 중인 아이디입니다.");
+				 }
+			 })
+			 .fail(function(xhr, status, errorThrown){
+				 $("#msg").text("아이디 중복 체크를 진행하지 못했습니다.");
+			 })
+			 .always(function(xhr, status){
+				 
+			 })
+		  });
+	  });
+  	</script>
+</div>
+</body>
+</html>

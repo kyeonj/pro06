@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<title>Ajax 데이터 송수신 메소드</title>
+	
+</head>
+<body>
+<div class="fluid-container">
+	<section class="container">
+	<h2>Ajax 데이터 송수신 메소드</h2>
+	<article class="data">
+		<div><h2>DATA</h2></div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>아이디</th>
+					<th>비밀번호</th>
+					<th>이름</th>
+				</tr>
+			</thead>
+			<tbody id="result">
+			</tbody>
+		</table>
+		<button type="button" id="btn1">회원 목록 로딩</button>
+		<div id="msg"></div>
+	</article>
+  	</section>
+  	<script>
+  	$(document).ready(function(){
+		  $("#btn1").click(function(){
+			 $.ajax({
+				 url:"/ajxa/userList.do",
+				 //data:id,
+				 contentType:'application/json;charset=utf-8',
+				 method:"GET",
+				 dataType:"json"
+			 })
+			 .done(function(res){
+				 console.log(res);
+				 if(res==true){
+					 $("#msg").text("사용가능한 아이디입니다.");
+					 $("#idck").val("yes");
+				 } else {
+					 $ ("#msg").text("현재 사용 중인 아이디입니다.");
+				 }
+			 })
+			 .fail(function(xhr, status, errorThrown){
+				 $("#msg").text("아이디 중복 체크를 진행하지 못했습니다.");
+			 })
+			 .always(function(xhr, status){
+				 
+			 })
+		  });
+	  });
+  	</script>
+</div>
+</body>
+</html>
